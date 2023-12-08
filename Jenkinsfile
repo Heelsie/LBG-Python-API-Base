@@ -1,23 +1,21 @@
 pipeline {
     agent any
-    stages {
-        stage('Environment') {
-            steps {
-                script {                    
-                echo "You are in ${env.GIT_BRANCH} GIT Branch"
+
+    environment{
                 if (env.GIT_BRANCH == 'origin/main') {
                     SERVERIP = "10.154.0.39"
                 }
+                else if (env.GIT_BRANCH == 'origin/test') {
+                    SERVERIP = "placeholder"
                 }
-                
-           }
-        }
+    }
+    stages {
         stage('Init') {
             steps {
                 script {
-                sh '''
+                sh """
                 echo "You are using the ${env.GIT_BRANCH} GIT Branch"
-                ssh -i ~/.ssh/id_rsa jenkins@${SERVERIP} << EOF
+                ssh -i ~/.ssh/id_rsa jenkins@ ${SERVERIP} << EOF
                 docker stop flask-app || echo "flask-app not running"
                 docker rm -f flask-app || echo "flask-app not running"
                 docker rmi flask-app || echo "flask-app image already removed"
@@ -25,7 +23,7 @@ pipeline {
                 docker rm -f mynginx || echo "mynginx not running"
                 docker rmi mynginx || echo "mynginx image already removed"
                 docker network create new-network || true
-                '''
+                """
                 }
            }
         }
