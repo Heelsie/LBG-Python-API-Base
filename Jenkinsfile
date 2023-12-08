@@ -1,18 +1,17 @@
 pipeline {
     agent any
 
-    environment{
+    stages {
+        stage('Init') {
+            steps {
+                script {
                 if (env.GIT_BRANCH == 'origin/main') {
                     SERVERIP = "10.154.0.39"
                 }
                 else if (env.GIT_BRANCH == 'origin/test') {
                     SERVERIP = "placeholder"
                 }
-    }
-    stages {
-        stage('Init') {
-            steps {
-                script {
+
                 sh """
                 echo "You are using the ${env.GIT_BRANCH} GIT Branch"
                 ssh -i ~/.ssh/id_rsa jenkins@ ${SERVERIP} << EOF
