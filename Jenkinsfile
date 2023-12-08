@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                echo "You are in " $(env.GIT_BRANCH) " GIT Branch"
+                echo "You are in ${env.GIT_BRANCH} GIT Branch"
                 '''
                 }
                 
