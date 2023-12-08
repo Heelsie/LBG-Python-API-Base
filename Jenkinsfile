@@ -46,6 +46,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+                script {
                 if (env.GIT_BRANCH == 'origin/main') {
                     SERVERIP = "10.154.0.39"
                 }
@@ -58,6 +59,7 @@ pipeline {
                 docker run -d --network new-network --name flask-app heelsie/python-api
                 docker run -d -p 80:80 --name mynginx --network new-network heelsie/nginx-jenk:latest
                 """
+            }
             }
         }
         stage('Cleanup') {
