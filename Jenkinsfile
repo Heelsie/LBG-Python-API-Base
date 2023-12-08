@@ -3,10 +3,9 @@ pipeline {
     stages {
         stage('Environment') {
             steps {
-                script {
-                    sh '''
+                script {                    
                 echo "You are in ${env.GIT_BRANCH} GIT Branch"
-                '''
+                           
                 }
                 
            }
