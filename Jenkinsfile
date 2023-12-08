@@ -13,7 +13,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                docker build -t heelsie/python-api -t heesie/python-api:v${BUILD_NUMBER} .                  
+                docker build -t heelsie/python-api -t heelsie/python-api:v${BUILD_NUMBER} .                  
                 '''
            }
         }
