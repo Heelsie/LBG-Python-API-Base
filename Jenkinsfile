@@ -16,8 +16,8 @@ pipeline {
             steps {
                 script {
                 sh '''
-                echo "You are  $(GIT_BRANCH) GIT Branch"
-                ssh -i ~/.ssh/id_rsa jenkins@ \$SERVERIP << EOF
+                echo "You are using the ${env.GIT_BRANCH} GIT Branch"
+                ssh -i ~/.ssh/id_rsa jenkins@${SERVERIP} << EOF
                 docker stop flask-app || echo "flask-app not running"
                 docker rm -f flask-app || echo "flask-app not running"
                 docker rmi flask-app || echo "flask-app image already removed"
