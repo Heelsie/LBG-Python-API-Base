@@ -5,7 +5,12 @@ pipeline {
             steps {
                 sh '''
                 ssh -i ~/.ssh/id_rsa jenkins@10.154.0.39 << EOF
-                docker rm -f $(docker ps -qa) || true
+                docker stop flask-app || echo "flask-app not running"
+                docker rm -f flask-app || echo "flask-app not running"
+                docker rmi flask-app || echo "flask-app image already removed"
+                docker stop mynginx || echo "mynginx not running"
+                docker rm -f mynginx || echo "mynginx not running"
+                docker rmi mynginx || echo "mynginx image already removed"
                 docker network create new-network || true
                 '''
            }
