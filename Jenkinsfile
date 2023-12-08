@@ -1,9 +1,20 @@
 pipeline {
     agent any
     stages {
+        stage('Environment') {
+            steps {
+                script {
+                    sh '''
+                echo "You are  $(GIT_BRANCH) GIT Branch"
+                '''
+                }
+                
+           }
+        }
         stage('Init') {
             steps {
                 sh '''
+                echo "You are  $(GIT_BRANCH) GIT Branch"
                 ssh -i ~/.ssh/id_rsa jenkins@10.154.0.39 << EOF
                 docker stop flask-app || echo "flask-app not running"
                 docker rm -f flask-app || echo "flask-app not running"
