@@ -1,0 +1,77 @@
+apiVersion: v1
+
+kind: Service
+
+metadata:
+
+  name: lbg-app
+
+spec:
+
+  type: ClusterIP
+
+  selector:
+
+    app: lbg
+
+  ports:
+
+  - protocol: TCP
+
+    port: 80
+
+    targetPort: 8080
+
+---
+
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+
+  name: lbg-deployment
+
+  labels:
+
+    app: lbg
+
+spec:
+
+  replicas: 10
+
+  selector:
+
+    matchLabels:
+
+      app: lbg
+
+  strategy:
+
+    rollingUpdate:
+
+      maxSurge: 20%
+
+      maxUnavailable: 20%
+
+  template:
+
+    metadata:
+
+      labels:
+
+        app: lbg
+
+    spec:
+
+      containers:
+
+      - name: lbg-container
+
+        image: heelsie/lbgapp:latest
+        
+        imagePullPolicy: Always
+
+        ports:
+
+        - containerPort: 8080
