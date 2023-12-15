@@ -76,13 +76,13 @@ pipeline {
                         if (env.GIT_BRANCH == "origin/main") {
                     sh '''
                     kubectl apply -n prod -f ./kubernetes
-                    kubectl set image deployment/lbg-deployment flask-container=heelsie/lbgapp:v${BUILD_NUMBER} -n prod
+                    kubectl set image deployment/lbg-deployment lbg-container=heelsie/lbgapp:v${BUILD_NUMBER} -n prod
                     kubectl set image deployment/nginx-deployment nginx-container=heelsie/lbg-nginx:prod-v${BUILD_NUMBER} -n prod
                     '''
                     } else if (env.GIT_BRANCH == "origin/dev") {
                         sh '''
                     kubectl apply -n dev -f ./kubernetes
-                    kubectl set image deployment/lbg-deployment flask-container=heelsie/lbgapp:v${BUILD_NUMBER} -n dev
+                    kubectl set image deployment/lbg-deployment lbg-container=heelsie/lbgapp:v${BUILD_NUMBER} -n dev
                     kubectl set image deployment/nginx-deployment nginx-container=heelsie/lbg-nginx:dev-v${BUILD_NUMBER} -n dev
                     '''
                     } else {
