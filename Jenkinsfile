@@ -4,7 +4,7 @@ pipeline {
         stage('Init') {
             steps {
                 script {
-                    if (env.GIT_BRANCH == "origin/master") {
+                    if (env.GIT_BRANCH == "origin/main") {
                         sh '''
                         kubectl create namespace prod || echo "Namespace prod already exists"
                         '''
@@ -24,7 +24,7 @@ pipeline {
          stage('Build') {
             steps {
                 script {
-                    if (env.GIT_BRANCH == "origin/master") {
+                    if (env.GIT_BRANCH == "origin/main") {
                         sh '''
                         docker build -t heelsie/lbgapp:latest -t heelsie/lbgapp:prod-v${BUILD_NUMBER} .
                         docker build -t heelsie/lbg-nginx:latest -t heelsie/lbg-nginx:prod-v${BUILD_NUMBER} .
@@ -46,7 +46,7 @@ pipeline {
         stage('Push') {
             steps {
                 script {
-                    if (env.GIT_BRANCH == "origin/master") {
+                    if (env.GIT_BRANCH == "origin/main") {
                 sh '''
                 docker push heelsie/lbgapp:latest
                 docker push heelsie/lbgapp:prod-v${BUILD_NUMBER}
@@ -73,7 +73,7 @@ pipeline {
         stage('Deploy') {
             steps {
                     script {
-                        if (env.GIT_BRANCH == "origin/master") {
+                        if (env.GIT_BRANCH == "origin/main") {
                     sh '''
                     kubectl apply -n prod -f ./kubernetes
                     kubectl set image deployment/flask-deployment flask-container=heelsie/lbgapp:v${BUILD_NUMBER} -n prod
